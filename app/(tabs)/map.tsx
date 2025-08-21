@@ -1,7 +1,7 @@
 import * as Location from "expo-location";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
-import MapView, { Circle, Marker } from "react-native-maps";
+import { ActivityIndicator, Text, View } from "react-native";
+import MapView, { Callout, Circle, Marker } from "react-native-maps";
 
 // Sample POI data - replace this with your actual POI list
 const samplePOIs = [
@@ -125,8 +125,19 @@ export default function MapScreen({ pois = samplePOIs }: Props) {
           }}
           title={poi.title}
           description={poi.description}
-          pinColor="red" // Red marker for POIs
-        />
+          pinColor="red"
+        >
+          <Callout
+            tooltip={false}
+            onPress={() => console.log("Navigation call: " + poi.id)}
+          >
+            <View style={{ width: 200, padding: 10 }}>
+              <Text style={{ fontWeight: "bold" }}>{poi.title}</Text>
+              <Text>{poi.description}</Text>
+              <Text style={{ marginTop: 8, color: "blue" }}>Tap for more information</Text>
+            </View>
+          </Callout>
+        </Marker>
       ))}
     </MapView>
   );
