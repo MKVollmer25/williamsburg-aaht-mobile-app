@@ -1,4 +1,5 @@
 import * as Location from "expo-location";
+import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import MapView, { Callout, Circle, Marker } from "react-native-maps";
@@ -94,6 +95,15 @@ export default function MapScreen({ pois = samplePOIs }: Props) {
     );
   }
 
+  const router = useRouter();
+
+  const handlePOI = (id: number) => {
+    router.push({
+      pathname: "/poi/[id]",
+      params: { id: String(id) }, // must be string
+    } as any);
+  }
+
   return (
     <MapView
       style={{ flex: 1 }}
@@ -129,7 +139,7 @@ export default function MapScreen({ pois = samplePOIs }: Props) {
         >
           <Callout
             tooltip={false}
-            onPress={() => console.log("Navigation call: " + poi.id)}
+            onPress={() => handlePOI(poi.id)}
           >
             <View style={{ width: 200, padding: 10 }}>
               <Text style={{ fontWeight: "bold" }}>{poi.title}</Text>
